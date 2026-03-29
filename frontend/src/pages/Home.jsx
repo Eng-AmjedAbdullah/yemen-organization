@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../App'
 import api from '../lib/api'
@@ -25,12 +25,24 @@ const GOALS_DATA = {
 
 function SectionTitle({ children, align = 'center' }) {
   const isStart = align === 'start'
+  const titleRef = useRef(null)
+  const [lineWidth, setLineWidth] = useState(0)
+
+  useEffect(() => {
+    if (titleRef.current) {
+      setLineWidth(titleRef.current.offsetWidth)
+    }
+  }, [children])
+
   return (
-    <div className={`inline-flex flex-col ${isStart ? 'items-start' : 'items-center'}`}>
-      <h2 className={`section-title whitespace-nowrap ${isStart ? 'text-start' : ''}`}>
+    <div className={`flex flex-col ${isStart ? 'items-start' : 'items-center'}`}>
+      <h2 ref={titleRef} className={`section-title ${isStart ? 'text-start' : 'text-center'}`}>
         {children}
       </h2>
-      <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent rounded-full mt-2" />
+      <div 
+        className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full mt-3" 
+        style={{ width: `${lineWidth}px` }}
+      />
     </div>
   )
 }
@@ -170,10 +182,10 @@ export default function Home() {
       </section>
 
       {/* ── من نحن ────────────────────────────────────────── */}
-      <section className="py-14 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="mb-6">
+            <div className="mb-8">
               <SectionTitle align="start">
                 {isRtl ? 'من نحن' : 'Who We Are'}
               </SectionTitle>
@@ -228,11 +240,11 @@ export default function Home() {
       </section>
 
       {/* ── رؤيتنا وأهدافنا ───────────────────────────────── */}
-      <section className="py-14 bg-gray-50">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col items-center text-center mb-10">
+          <div className="flex flex-col items-center text-center mb-12">
             <SectionTitle>{isRtl ? 'رؤيتنا وأهدافنا' : 'Our Vision & Goals'}</SectionTitle>
-            <p className="text-gray-500 max-w-xl mx-auto text-sm mt-4">
+            <p className="text-gray-600 max-w-2xl mx-auto text-base mt-6 leading-relaxed font-medium">
               {isRtl
                 ? 'نعمل من أجل يمن يحتفي بتراثه ويبني مستقبله على أسس من العلم والثقافة والسلام'
                 : 'We work for a Yemen that celebrates its heritage and builds its future on science, culture, and peace'}
@@ -263,9 +275,9 @@ export default function Home() {
       </section>
 
       {/* ── الحياة التراثية ───────────────────────────────── */}
-      <section className="py-14 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col items-center text-center mb-10">
+          <div className="flex flex-col items-center text-center mb-12">
             <SectionTitle>{t.heritage_life_title}</SectionTitle>
           </div>
 
@@ -316,9 +328,9 @@ export default function Home() {
       </section>
 
       {/* ── آخر الأخبار ───────────────────────────────────── */}
-      <section className="py-14 bg-gray-50">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex items-end justify-between mb-12">
             <SectionTitle align="start">{t.latest_news}</SectionTitle>
             <Link to="/news" className="hidden md:inline-flex items-center gap-2 text-primary font-semibold hover:underline text-sm shrink-0 ms-4">
               {t.view_all}<Arrow size={14} />
@@ -366,9 +378,9 @@ export default function Home() {
       </section>
 
       {/* ── الفعاليات ─────────────────────────────────────── */}
-      <section className="py-14 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex items-end justify-between mb-12">
             <SectionTitle align="start">{t.latest_events}</SectionTitle>
             <Link to="/events" className="hidden md:inline-flex items-center gap-2 btn-primary text-sm shrink-0 ms-4">
               {t.view_all}<Arrow size={14} />
@@ -424,9 +436,9 @@ export default function Home() {
       </section>
 
       {/* ── شركاؤنا ───────────────────────────────────────── */}
-      <section className="py-14 bg-gray-50">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col items-center text-center mb-10">
+          <div className="flex flex-col items-center text-center mb-12">
             <SectionTitle>{t.partners_title}</SectionTitle>
           </div>
 
